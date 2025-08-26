@@ -22,7 +22,7 @@ class PortfolioApp {
         if (navToggle && navMenu) {
             navToggle.addEventListener('click', () => {
                 navToggle.classList.toggle('active');
-                navMenu.classList.toggle('active');
+                navMenu.classList.toggle('active'); 
             });
 
             // Close mobile menu when clicking on a link

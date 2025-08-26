@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Score Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f6f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #333;
+      color: white;
+    }
+    .fail {
+      background: #ffdddd;
+      color: red;
+      font-weight: bold;
+    }
+    .summary {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Student Score Dashboard</h1>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be inserted by JS -->
+    </tbody>
+  </table>
+
+  <div class="summary">
+    <p id="topStudent"></p>
+    <p id="averageScore"></p>
+  </div>
+
+  <script src="lesson.js"></script>
+</body>
+</html>
