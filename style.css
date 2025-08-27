@@ -507,6 +507,10 @@ section {
   background: var(--bg-secondary);
 }
 
+.section-title {
+  margin-top: 50px;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
