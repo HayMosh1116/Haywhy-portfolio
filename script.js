@@ -1,6 +1,5 @@
 // Portfolio Website JavaScript
 // Handles navigation, theme switching, animations, and form interactions
-
 class PortfolioApp {
     constructor() {
         this.init();
@@ -60,6 +59,8 @@ class PortfolioApp {
                 this.handleFormSubmission(e);
             });
         }
+
+        
 
         // Window resize handler
         window.addEventListener('resize', () => {
@@ -199,61 +200,52 @@ class PortfolioApp {
         }
     }
 
+    // 🔄 Updated method with Formspree integration and inline status messages
     handleFormSubmission(e) {
         e.preventDefault();
-        
+
         const form = e.target;
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
+        const statusDiv = form.closest(".contact-content").querySelector(".form-status");
 
-        // Basic form validation
-        if (!data.name || !data.email || !data.message) {
-            this.showNotification('Please fill in all required fields.', 'error');
-            return;
-        }
+        // Reset status
+        statusDiv.textContent = "";
+        statusDiv.className = "form-status"; // clear old classes
 
-        if (!this.isValidEmail(data.email)) {
-            this.showNotification('Please enter a valid email address.', 'error');
-            return;
-        }
+        // Show "sending" status
+        statusDiv.textContent = "Sending your message...";
+        statusDiv.classList.add("info");
 
-        // Simulate form submission
-        this.showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
-        form.reset();
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(response => {
+            if (response.ok) {
+                statusDiv.textContent = "✅ Thanks for your message! I'll get back to you soon.";
+                statusDiv.classList.add("success");
+                form.reset();
+            } else {
+                response.json().then(data => {
+                    if (data.errors) {
+                        statusDiv.textContent = data.errors.map(err => err.message).join(", ");
+                    } else {
+                        statusDiv.textContent = "❌ Oops! Something went wrong. Please try again.";
+                    }
+                    statusDiv.classList.add("error");
+                });
+            }
+        })
+        .catch(() => {
+            statusDiv.textContent = "⚠️ Network error. Please check your connection and try again.";
+            statusDiv.classList.add("error");
+        });
     }
 
     isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    }
-
-    showNotification(message, type = 'info') {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.textContent = message;
-
-        // Add to body
-        document.body.appendChild(notification);
-
-        // Trigger animation
-        setTimeout(() => {
-            notification.classList.add('show');
-        }, 100);
-
-        // Remove after 5 seconds
-        setTimeout(() => {
-            this.hideNotification(notification);
-        }, 5000);
-    }
-
-    hideNotification(notification) {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
     }
 
     // Utility functions
